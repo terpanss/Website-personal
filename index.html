@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WifiPribadi - Paket Internet Terpercaya</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Batik Cirebon -->
+    <div class="background-pattern"></div>
+
+    <!-- Clouds Decoration -->
+    <div class="clouds">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+    </div>
+
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landing" class="page active">
+            <div class="landing-content">
+                <div class="logo-section">
+                    <h1 class="logo-title">WifiPribadi</h1>
+                    <p class="logo-subtitle">Internet Berkualitas Untuk Rumah Anda</p>
+                </div>
+
+                <div class="choice-buttons">
+                    <button class="btn btn-admin" onclick="showAdminLogin()">
+                        <span class="btn-icon">👨‍💼</span>
+                        <span class="btn-text">Masuk Admin</span>
+                    </button>
+                    <button class="btn btn-konsumen" onclick="showKonsumenForm()">
+                        <span class="btn-icon">👥</span>
+                        <span class="btn-text">Masuk Konsumen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Login Page -->
+        <div id="adminLogin" class="page">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Login Admin</h2>
+                    <button class="btn-back" onclick="backToLanding()">← Kembali</button>
+                </div>
+
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminName">Nama Admin:</label>
+                        <input type="text" id="adminName" required placeholder="Masukkan nama admin">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password:</label>
+                        <input type="password" id="adminPassword" required placeholder="Masukkan password">
+                    </div>
+                    <button type="submit" class="btn btn-submit">Masuk</button>
+                </form>
+
+                <div id="loginError" class="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Konsumen Form Page -->
+        <div id="konsumenForm" class="page">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Formulir Pendaftaran Konsumen</h2>
+                    <button class="btn-back" onclick="backToLanding()">← Kembali</button>
+                </div>
+
+                <form id="konsumenFormElement" onsubmit="handleKonsumenSubmit(event)">
+                    <div class="form-group">
+                        <label for="konsumenName">Nama Lengkap *</label>
+                        <input type="text" id="konsumenName" required placeholder="Masukkan nama lengkap">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konsumenPhone">Nomor HP *</label>
+                        <input type="tel" id="konsumenPhone" required placeholder="Contoh: 081234567890">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konsumenAddress">Alamat Lengkap *</label>
+                        <textarea id="konsumenAddress" required placeholder="Masukkan alamat lengkap dengan detail"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konsumenKTP">Foto KTP *</label>
+                        <input type="file" id="konsumenKTP" accept="image/*" required>
+                        <small>Format: JPG, PNG (max 5MB)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konsumenPackage">Pilih Paket *</label>
+                        <select id="konsumenPackage" required>
+                            <option value="">-- Pilih Paket --</option>
+                            <option value="Paket Keluarga - Rp 150.000">Paket Keluarga - Rp 150.000/bulan</option>
+                            <option value="Paket Keluarga+Vocer - Rp 200.000">Paket Keluarga+Vocer - Rp 200.000/bulan</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">Daftar</button>
+                </form>
+
+                <div id="konsumenSuccess" class="success-message" style="display: none;">
+                    ✓ Data Anda berhasil terkirim! Admin akan segera memproses.
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard Page -->
+        <div id="adminDashboard" class="page">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Dashboard Admin</h2>
+                    <button class="btn-logout" onclick="handleLogout()">Logout</button>
+                </div>
+
+                <div class="admin-info">
+                    <p>Selamat datang, <strong id="adminUsername"></strong></p>
+                </div>
+
+                <!-- Tab Menu -->
+                <div class="dashboard-tabs">
+                    <button class="tab-btn tab-active" onclick="switchTab('dataKonsumen')">📊 Data Konsumen</button>
+                    <button class="tab-btn" onclick="switchTab('cetakStruk')">🖨️ Cetak Struk</button>
+                </div>
+
+                <!-- Tab 1: Data Konsumen -->
+                <div id="dataKonsumen" class="tab-content active">
+                    <div class="data-table-section">
+                        <h3>Data Pendaftaran Konsumen</h3>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>HP</th>
+                                        <th>Alamat</th>
+                                        <th>Paket</th>
+                                        <th>KTP</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminTableBody">
+                                    <tr>
+                                        <td colspan="8" class="no-data">Belum ada data konsumen</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Cetak Struk -->
+                <div id="cetakStruk" class="tab-content">
+                    <div class="struk-section">
+                        <div class="struk-form">
+                            <h3>Buat Struk Pembayaran</h3>
+                            <form onsubmit="handleBuatStruk(event)">
+                                <div class="form-group">
+                                    <label for="strukCariKonsumen">Cari Konsumen *</label>
+                                    <div class="search-konsumen-wrapper">
+                                        <input type="text" id="strukCariKonsumen" placeholder="Cari nama atau nomor HP..." autocomplete="off" oninput="cariKonsumen()">
+                                        <div id="daftarKonsumenDropdown" class="konsumen-dropdown" style="display: none;"></div>
+                                    </div>
+                                </div>
+
+                                <div id="dataKonsumenTerpilih" style="display: none;">
+                                    <div class="form-group" style="background: rgba(196, 30, 58, 0.05); padding: 15px; border-radius: 8px;">
+                                        <p><strong>✓ Konsumen Terpilih:</strong></p>
+                                        <p>Nama: <strong id="dataKonsumenNama"></strong></p>
+                                        <p>HP: <span id="dataKonsumenPhone"></span></p>
+                                        <p>Alamat: <span id="dataKonsumenAlamat"></span></p>
+                                        <p>Paket: <span id="dataKonsumenPacket"></span></p>
+                                        <button type="button" class="btn-change-konsumen" onclick="resetPilihKonsumen()">Ganti Konsumen</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="strukNamaAdmin">Nama Admin *</label>
+                                        <input type="text" id="strukNamaAdmin" required placeholder="Masukkan nama Anda">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="strukTanggal">Tanggal *</label>
+                                        <input type="date" id="strukTanggal" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="strukNominalBayar">Nominal Bayar (Rp) *</label>
+                                        <input type="number" id="strukNominalBayar" required placeholder="Masukkan nominal" oninput="updatePreviewStrukSementara()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="strukMetodeBayar">Metode Bayar *</label>
+                                        <select id="strukMetodeBayar" required>
+                                            <option value="">-- Pilih Metode --</option>
+                                            <option value="Tunai">Tunai</option>
+                                            <option value="Transfer Bank">Transfer Bank</option>
+                                            <option value="E-Wallet">E-Wallet</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="strukCatatan">Catatan</label>
+                                    <textarea id="strukCatatan" placeholder="Catatan tambahan (opsional)"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-submit">Preview Struk</button>
+                            </form>
+                        </div>
+
+                        <div id="strukPreviewContainer" style="display: none;">
+                            <div class="preview-info">
+                                <p>Preview Struk - Nominal: <strong id="previewNominal">Rp 0</strong></p>
+                            </div>
+                            <div id="strukPreview" class="struk-preview"></div>
+                            <div class="struk-buttons">
+                                <button class="btn btn-submit" onclick="cetakStrukPNG()">📥 Download PNG</button>
+                                <button class="btn btn-submit" style="background: linear-gradient(135deg, #666, #444);" onclick="resetFormStruk()">↩️ Kembali</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KTP Preview Modal -->
+    <div id="ktpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeKTPModal()">&times;</span>
+            <div class="ktp-modal-header">
+                <h3>Preview KTP</h3>
+                <button class="btn-download-ktp" onclick="downloadKTP()" title="Download KTP">⬇️ Download</button>
+            </div>
+            <div class="ktp-modal-info">
+                <p><strong>Nama:</strong> <span id="ktpModalName">-</span></p>
+                <p><strong>Nomor HP:</strong> <span id="ktpModalPhone">-</span></p>
+                <p><strong>Alamat:</strong> <span id="ktpModalAddress">-</span></p>
+                <p><strong>Paket:</strong> <span id="ktpModalPackage">-</span></p>
+                <p><strong>Status:</strong> <span id="ktpModalStatus">-</span></p>
+            </div>
+            <img id="ktpPreview" src="" alt="Preview KTP" class="ktp-image">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
